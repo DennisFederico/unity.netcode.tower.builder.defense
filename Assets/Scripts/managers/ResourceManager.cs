@@ -8,7 +8,7 @@ namespace managers {
         //public singleton
         public static ResourceManager Instance { get; private set; }
         public event Action<ResourceTypeSO, int> OnResourceAmountChanged;
-        private ResourceTypeListSO _resourceTypeList;
+        [SerializeField] private ResourceTypeListSO resourceTypeList;
         private NetworkList<ResourceAmount> _resourceAmountList;
 
         public struct ResourceAmount : INetworkSerializable, IEquatable<ResourceAmount> {
@@ -25,12 +25,6 @@ namespace managers {
             }
         }
 
-        public enum ResourceType {
-            Wood,
-            Stone,
-            Gold
-        }
-
         private void Awake() {
             //Singleton
             if (Instance != null && Instance != this) {
@@ -38,8 +32,6 @@ namespace managers {
             } else {
                 Instance = this;
             }
-
-            _resourceTypeList = Resources.Load<ResourceTypeListSO>(nameof(ResourceTypeListSO));
             _resourceAmountList = new NetworkList<ResourceAmount>();
             _resourceAmountList.OnListChanged += HandleResourceAmountListChanged;
         }
@@ -53,33 +45,17 @@ namespace managers {
         public override void OnNetworkSpawn() {
             base.OnNetworkSpawn();
             if (!IsServer) return;
-            for (var i = 0; i < _resourceTypeList.resourceTypeList.Count; i++) {
+            for (var i = 0; i < resourceTypeList.resourceTypeList.Count; i++) {
                 _resourceAmountList.Add(new ResourceAmount { ResourceIndex = i, Amount = 0 });
             }
         }
 
-        private void Update() {
-            if (!IsServer) return;
-
-            if (Input.GetKeyDown(KeyCode.Q)) {
-                AddResource(0, 15);
-            }
-
-            if (Input.GetKeyDown(KeyCode.W)) {
-                AddResource(_resourceTypeList.resourceTypeList[1], 10);
-            }
-
-            if (Input.GetKeyDown(KeyCode.E)) {
-                AddResource(2, 5);
-            }
-        }
-
         public int GetResourceTypeIndex(ResourceTypeSO resourceType) {
-            return _resourceTypeList.resourceTypeList.IndexOf(resourceType);
+            return resourceTypeList.resourceTypeList.IndexOf(resourceType);
         }
 
         public ResourceTypeSO GetIndexResourceType(int index) {
-            return _resourceTypeList.resourceTypeList[index];
+            return resourceTypeList.resourceTypeList[index];
         }
 
         private void AddResource(int index, int amount) {

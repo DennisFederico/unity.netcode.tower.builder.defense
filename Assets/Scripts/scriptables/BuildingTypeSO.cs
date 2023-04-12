@@ -5,5 +5,6 @@ namespace scriptables {
     public class BuildingTypeSO : ScriptableObject {
         public string buildingName;
         public Transform buildingPrefab;
+        public ResourceGenerationData resourceGenerationData;
     }
 }

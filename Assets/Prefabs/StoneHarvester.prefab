@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2952859790677275944}
   - component: {fileID: 5027798976722193214}
+  - component: {fileID: 3289718140299191989}
   m_Layer: 0
   m_Name: StoneHarvester
   m_TagString: Untagged
@@ -133,3 +134,16 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &3289718140299191989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007110186104072732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b8d8ec143524070b0d5304da236e08c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingType: {fileID: 11400000, guid: 7d29a466e92bc40db8307f3d45990e82, type: 2}

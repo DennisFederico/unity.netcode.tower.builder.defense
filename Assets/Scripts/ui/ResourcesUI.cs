@@ -1,4 +1,5 @@
 using managers;
+using resource;
 using scriptables;
 using TMPro;
 using UnityEngine;
@@ -16,13 +17,13 @@ namespace ui {
         private void HandleResourceAmountChanged(ResourceTypeSO resourceTypeSO, int amount) {
             var resourceAmount = ResourceManager.Instance.GetResourceAmount(resourceTypeSO);
             switch (resourceTypeSO.resourceType) {
-                case ResourceManager.ResourceType.Wood:
+                case ResourceType.Wood:
                     woodText.text = resourceAmount.ToString();
                     break;
-                case ResourceManager.ResourceType.Stone:
+                case ResourceType.Stone:
                     stoneText.text = resourceAmount.ToString();
                     break;
-                case ResourceManager.ResourceType.Gold:
+                case ResourceType.Gold:
                     goldText.text = resourceAmount.ToString();
                     break;
             }

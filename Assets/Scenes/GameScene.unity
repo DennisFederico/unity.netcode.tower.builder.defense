@@ -643,6 +643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSprite: {fileID: 930329232}
+  buildingTypeList: {fileID: 11400000, guid: 47c40c954a93c46768a09ffc469dfeb4, type: 2}
 --- !u!4 &548815718
 Transform:
   m_ObjectHideFlags: 0
@@ -815,6 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a905fa5c55d10436898c4abc7088b184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resourceTypeList: {fileID: 11400000, guid: 39210f3db8ff3477483e187bde3c4baf, type: 2}
 --- !u!4 &872659429
 Transform:
   m_ObjectHideFlags: 0
