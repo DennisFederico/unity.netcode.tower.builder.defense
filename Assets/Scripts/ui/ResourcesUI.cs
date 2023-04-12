@@ -1,31 +1,27 @@
+using System.Collections.Generic;
 using managers;
-using resource;
 using scriptables;
-using TMPro;
 using UnityEngine;
 
 namespace ui {
     public class ResourcesUI : MonoBehaviour {
-        [SerializeField] private TextMeshProUGUI woodText;
-        [SerializeField] private TextMeshProUGUI stoneText;
-        [SerializeField] private TextMeshProUGUI goldText;
-        
+        [SerializeField] private Transform resourceSinglePrefab;
+        private Dictionary<ResourceTypeSO, ResourceUISingle> _resourceUISingleDictionary = new();
+
         private void Start() {
+            foreach (var resourceType in ResourceManager.Instance.GetResourceTypes()) {
+                var resourceSingle = Instantiate(resourceSinglePrefab, transform);
+                var resourceUISingle = resourceSingle.GetComponent<ResourceUISingle>();
+                resourceUISingle.Initialize(resourceType);
+                _resourceUISingleDictionary[resourceType] = resourceUISingle;
+            }
             ResourceManager.Instance.OnResourceAmountChanged += HandleResourceAmountChanged;
         }
 
         private void HandleResourceAmountChanged(ResourceTypeSO resourceTypeSO, int amount) {
             var resourceAmount = ResourceManager.Instance.GetResourceAmount(resourceTypeSO);
-            switch (resourceTypeSO.resourceType) {
-                case ResourceType.Wood:
-                    woodText.text = resourceAmount.ToString();
-                    break;
-                case ResourceType.Stone:
-                    stoneText.text = resourceAmount.ToString();
-                    break;
-                case ResourceType.Gold:
-                    goldText.text = resourceAmount.ToString();
-                    break;
+            if (_resourceUISingleDictionary.TryGetValue(resourceTypeSO, out var resourceUISingle)) {
+                resourceUISingle.UpdateAmount(resourceAmount);
             }
         }
     }

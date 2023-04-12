@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using scriptables;
 using Unity.Netcode;
 using UnityEngine;
@@ -50,6 +51,10 @@ namespace managers {
             }
         }
 
+        public List<ResourceTypeSO> GetResourceTypes() {
+            return resourceTypeList.resourceTypeList;
+        }
+        
         public int GetResourceTypeIndex(ResourceTypeSO resourceType) {
             return resourceTypeList.resourceTypeList.IndexOf(resourceType);
         }

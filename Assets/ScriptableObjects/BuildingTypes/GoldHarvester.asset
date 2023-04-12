@@ -16,4 +16,4 @@ MonoBehaviour:
   buildingPrefab: {fileID: 2952859790677275944, guid: ed3999c19b70a4312ba48954bbcb2eb2, type: 3}
   resourceGenerationData:
     timer: 3
-    resourceType: {fileID: 11400000, guid: 7853241a81c904720960176e01620d9b, type: 2}
+    resourceType: {fileID: 11400000, guid: 335ce9186c9b442f796b2a2d2b19ba34, type: 2}
