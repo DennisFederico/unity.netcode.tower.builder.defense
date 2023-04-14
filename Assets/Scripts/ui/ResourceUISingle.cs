@@ -10,7 +10,7 @@ namespace ui {
         [SerializeField] private TextMeshProUGUI text;
 
         public void Initialize(ResourceTypeSO resourceType) {
-            icon.sprite = resourceType.iconSprite;
+            icon.sprite = resourceType.sprite;
             text.text = "0";
         }
 

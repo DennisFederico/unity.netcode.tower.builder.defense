@@ -1,12 +1,17 @@
+using System;
 using scriptables;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace managers {
     public class BuildingManager : MonoBehaviour {
         public static BuildingManager Instance { get; private set; }
+        public event Action<BuildingTypeSO> OnActiveBuildingTypeChanged; 
 
         [SerializeField] private Transform mouseSprite;
         [SerializeField] private BuildingTypeListSO buildingTypeList;
+        private BuildingTypeSO _activeBuildingType;
+        private int _buildingTypeIndex;
         private Camera _mainCamera;
 
         private void Awake() {
@@ -22,25 +27,16 @@ namespace managers {
             _mainCamera = Camera.main;
         }
 
-        int buildingIndex = 0;
-
         void Update() {
-            mouseSprite.position = GetWorldMousePosition();
 
-            if (Input.GetMouseButtonDown(0)) {
-                MultiplayerGameManager.Instance.SendBuildingSpawnRequest(buildingIndex, GetWorldMousePosition());
+            if (mouseSprite) mouseSprite.position = GetWorldMousePosition();
+            
+            if (Input.GetMouseButtonDown(0) &&_activeBuildingType && !EventSystem.current.IsPointerOverGameObject()) {
+                MultiplayerGameManager.Instance.SendBuildingSpawnRequest(_buildingTypeIndex, GetWorldMousePosition());
             }
-
-            if (Input.GetKeyDown(KeyCode.Q)) {
-                buildingIndex = 0;
-            }
-
-            if (Input.GetKeyDown(KeyCode.W)) {
-                buildingIndex = 1;
-            }
-
-            if (Input.GetKeyDown(KeyCode.E)) {
-                buildingIndex = 2;
+            
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                SetActiveBuildingType(null);
             }
 
             // if (Input.GetMouseButtonDown(0)) {
@@ -60,8 +56,18 @@ namespace managers {
             screenToWorldPoint.z = 0f;
             return screenToWorldPoint;
         }
+        
+        public void SetActiveBuildingType(BuildingTypeSO buildingType) {
+            _activeBuildingType = buildingType;
+            _buildingTypeIndex = _activeBuildingType ? buildingTypeList.buildingTypeList.IndexOf(_activeBuildingType) : -1;
+            if (mouseSprite) {
+                mouseSprite.gameObject.SetActive(_activeBuildingType);
+                mouseSprite.GetComponent<SpriteRenderer>().sprite = _activeBuildingType ? _activeBuildingType.sprite : null;
+            }
+            OnActiveBuildingTypeChanged?.Invoke(_activeBuildingType);
+        }
 
-        public BuildingTypeListSO GetBuildingTypeList() {
+        public BuildingTypeListSO GetBuildingTypeListSO() {
             return buildingTypeList;
         }
     }
