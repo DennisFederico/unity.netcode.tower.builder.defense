@@ -4,6 +4,7 @@ namespace utils {
     [ExecuteInEditMode]
     public class SpritePositionSortingOrder : MonoBehaviour {
         
+        [SerializeField] private float offsetY = 0f;
         private SpriteRenderer _spriteRenderer;
         private bool _isStatic;
         private readonly int _sortingPrecision = 5;
@@ -18,6 +19,9 @@ namespace utils {
 
         private void Start() {
             UpdateSortingOrder();
+            if (_isStatic && Application.isPlaying) {
+                Destroy(this);
+            }
         }
 
         private void LateUpdate() {
@@ -26,7 +30,8 @@ namespace utils {
         }
 
         private void UpdateSortingOrder() {
-            _spriteRenderer.sortingOrder = (int)(-transform.position.y * _sortingPrecision);
+            Debug.Log("UpdateSortingOrder");
+            _spriteRenderer.sortingOrder = (int)((-transform.position.y + offsetY) * _sortingPrecision);
         }
     }
 }
