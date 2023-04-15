@@ -7,5 +7,6 @@ namespace scriptables {
         public string resourceName;
         public Sprite sprite;
         public ResourceType resourceType;
+        public Vector2Int nodeMinMaxAmount;
     }
 }

@@ -1,3 +1,4 @@
+using resource;
 using UnityEngine;
 
 namespace scriptables {
@@ -6,6 +7,6 @@ namespace scriptables {
         public string buildingName;
         public Transform buildingPrefab;
         public Sprite sprite;
-        public ResourceGenerationData resourceGenerationData;
+        public ResourceHarvestData resourceHarvestData;
     }
 }

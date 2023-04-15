@@ -15,3 +15,4 @@ MonoBehaviour:
   resourceName: Gold
   sprite: {fileID: 21300000, guid: 8b744c47cb320b84889a7b8439a78bc2, type: 3}
   resourceType: 2
+  nodeMinMaxAmount: {x: 150000, y: 300000}

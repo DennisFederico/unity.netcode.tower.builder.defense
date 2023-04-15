@@ -15,3 +15,4 @@ MonoBehaviour:
   resourceName: Wood
   sprite: {fileID: 21300000, guid: 0b991b4895d956f4ea5f954ab13b7529, type: 3}
   resourceType: 0
+  nodeMinMaxAmount: {x: 50000, y: 160000}
