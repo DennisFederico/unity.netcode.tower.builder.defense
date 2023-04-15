@@ -15,6 +15,7 @@ namespace ui {
             var unSelectButton = Instantiate(buildingSelectUIBtnPrefab, transform);
             unSelectButton.GetComponent<Button>().onClick.AddListener(() => { BuildingManager.Instance.SetActiveBuildingType(null); });
             _buildingUnSelectBtn = unSelectButton.GetComponent<BuildingSelectUIBtn>();
+            _buildingUnSelectBtn.SetSelected(true);
 
             //Add buttons for each building type
             foreach (var buildingType in BuildingManager.Instance.GetBuildingTypeListSO().buildingTypeList) {
