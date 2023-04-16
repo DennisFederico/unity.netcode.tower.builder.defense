@@ -18,5 +18,10 @@ MonoBehaviour:
   resourceHarvestData:
     timerMax: 1.5
     resourceType: {fileID: 11400000, guid: 96901538c85054a24bcba3ce2fe1ccc4, type: 2}
+    resourceLayer:
+      serializedVersion: 2
+      m_Bits: 128
     harvestRadius: 7
     maxHarvestNodes: 5
+  safeFromBuildingsDistance: {x: 2.5, y: 3}
+  maxDistanceFromBuildings: 15
