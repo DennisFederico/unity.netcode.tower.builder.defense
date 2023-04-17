@@ -54,5 +54,17 @@ namespace resource {
         private float CalculateTimerMax() {
             return (_resourceHarvestData.timerMax) + (_resourceHarvestData.timerMax * (1 - (float)_currentHarvestAmount / _resourceHarvestData.maxHarvestNodes));
         }
+        
+        public ResourceTypeSO GetResourceType() {
+            return _resourceHarvestData.resourceType;
+        }
+        
+        public float GetNormalizedHarvestTimer() {
+            return _timer / _timerMax;
+        }
+
+        public float GetHarvestAmountPerSecond() {
+            return _currentHarvestAmount / _timerMax;
+        }
     }
 }
