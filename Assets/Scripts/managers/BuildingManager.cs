@@ -11,9 +11,6 @@ namespace managers {
 
         [SerializeField] private BuildingGhost mouseGhost;
         [SerializeField] private BuildingTypeListSO buildingTypeList;
-        [SerializeField] private Color canBuildColor;
-        [SerializeField] private Color cannotBuildColor;
-        [SerializeField] private Color safeBuildColor;
         [SerializeField] private LayerMask buildingLayer;
         private BuildingTypeSO _activeBuildingType;
         private int _buildingTypeIndex;
@@ -22,6 +19,9 @@ namespace managers {
         private bool _isBuildingAreaClear;
         private bool _isBuildingAreaSafe;
         private bool _canSpawnBuilding;
+        private readonly float _ghostUpdateTimer = .5f;
+        private float _timer;
+
 
         private void Awake() {
             //Singleton
@@ -35,10 +35,10 @@ namespace managers {
         void Update() {
             if (_activeBuildingType) {
                 var worldPosition = CursorManager.Instance.GetWorldMousePosition();
-                _isBuildingAreaClear = IsBuildAreaClear(worldPosition);
-                _isBuildingAreaSafe = IsBuildAreaSafe(worldPosition);
+                _isBuildingAreaClear = UpdateIsBuildAreaClear(worldPosition);
+                _isBuildingAreaSafe = UpdateIsBuildAreaSafe(worldPosition);
                 _canSpawnBuilding = _isBuildingAreaClear && _isBuildingAreaSafe;
-                
+
                 if (Input.GetMouseButtonDown(0) &&
                     _canSpawnBuilding &&
                     !EventSystem.current.IsPointerOverGameObject()) {
@@ -64,8 +64,11 @@ namespace managers {
 
         private void LateUpdate() {
             if (!_activeBuildingType) return;
-            mouseGhost.SetGhostColor(_isBuildingAreaClear ? canBuildColor : cannotBuildColor);
-            mouseGhost.SetBorderColor(_isBuildingAreaSafe ? safeBuildColor : cannotBuildColor);
+            
+            _timer -= Time.deltaTime;
+            if (_timer > 0) return;
+            _timer = _ghostUpdateTimer;
+            mouseGhost.UpdateVisuals();
         }
 
         public BuildingTypeListSO GetBuildingTypeListSO() {
@@ -81,14 +84,16 @@ namespace managers {
                 _spriteBoxOffset = boxCollider2D.offset;
             }
 
-            if (mouseGhost) {
-                mouseGhost.Show(_activeBuildingType ? _activeBuildingType.sprite : null);
+            if (_activeBuildingType) {
+                mouseGhost.Show(_activeBuildingType);
+            } else {
+                mouseGhost.Hide();
             }
-            
+
             OnActiveBuildingTypeChanged?.Invoke(_activeBuildingType);
         }
         
-        private bool IsBuildAreaClear(Vector2 position) {
+        private bool UpdateIsBuildAreaClear(Vector2 position) {
             if (!_activeBuildingType) return false;
             // ReSharper disable Unity.PreferNonAllocApi
             var overlapBoxAll = Physics2D.OverlapBoxAll(position + _spriteBoxOffset, _spriteBoxSize, 0f);
@@ -96,13 +101,21 @@ namespace managers {
             // ReSharper restore Unity.PreferNonAllocApi
         }
         
-        private bool IsBuildAreaSafe(Vector2 position) {
+        public bool IsBuildAreaClear() {
+            return _activeBuildingType && _isBuildingAreaClear;
+        }
+        
+        private bool UpdateIsBuildAreaSafe(Vector2 position) {
             if (!_activeBuildingType) return false;
             // ReSharper disable Unity.PreferNonAllocApi
             var tooCloseBuildings = Physics2D.OverlapBoxAll(position + _spriteBoxOffset, _spriteBoxSize + _activeBuildingType.safeFromBuildingsDistance, 0f, buildingLayer);
             var maxFarBuildings = Physics2D.OverlapCircleAll(position, _activeBuildingType.maxDistanceFromBuildings, buildingLayer);
             return tooCloseBuildings.Length == 0 && maxFarBuildings.Length > 0;
             // ReSharper restore Unity.PreferNonAllocApi
+        }
+
+        public bool IsBuildAreaSafe() {
+            return _activeBuildingType && _isBuildingAreaClear;
         }
     }
 }
