@@ -31,7 +31,7 @@ public class BuildingGhost : MonoBehaviour {
 
     public void UpdateVisuals() {
         _spriteRenderer.color = BuildingManager.Instance.IsBuildAreaClear() ? canBuildColor : cannotBuildColor;
-        _borderRenderer.color = BuildingManager.Instance.IsBuildAreaSafe() ? safeBuildColor : cannotBuildColor;
+        _borderRenderer.color = BuildingManager.Instance.IsBuildingTooClose() ? safeBuildColor : cannotBuildColor;
         infoOverlay.UpdateText(_buildingType.resourceHarvestData);
     }
 

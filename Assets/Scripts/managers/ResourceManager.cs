@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using resource;
 using scriptables;
 using Unity.Netcode;
 using UnityEngine;
@@ -79,6 +80,27 @@ namespace managers {
         public int GetResourceAmount(ResourceTypeSO resourceType) {
             var index = GetResourceTypeIndex(resourceType);
             return _resourceAmountList[index].Amount;
+        }
+
+        public bool CanAffordResources(ResourceCost[] resources) {
+            foreach (var resource in resources) {
+                var resourceAmount = GetResourceAmount(resource.ResourceTypeSO);
+                if (resourceAmount < resource.Amount) return false;
+            }
+
+            return true;
+        }
+        
+        public bool TrySpendResources(ResourceCost[] resources) {
+            if (!CanAffordResources(resources)) return false;
+            foreach (var resource in resources) {
+                var index = GetResourceTypeIndex(resource.ResourceTypeSO);
+                var resourceAmount = _resourceAmountList[index];
+                resourceAmount.Amount -= resource.Amount;
+                _resourceAmountList[index] = resourceAmount;
+            }
+
+            return true;
         }
     }
 }

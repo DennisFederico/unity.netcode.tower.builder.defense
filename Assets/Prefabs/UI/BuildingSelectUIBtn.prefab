@@ -271,6 +271,7 @@ GameObject:
   - component: {fileID: 6945360397308442499}
   - component: {fileID: 8966922991684152459}
   - component: {fileID: 4809141456900929386}
+  - component: {fileID: 6896339529171103651}
   m_Layer: 5
   m_Name: BuildingSelectUIBtn
   m_TagString: Untagged
@@ -359,3 +360,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 5675594069417128492}
   selected: {fileID: 7163362372190161723}
+--- !u!114 &6896339529171103651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6225190388129967335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff89d9d7c22248a1b3c07921e3aec519, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

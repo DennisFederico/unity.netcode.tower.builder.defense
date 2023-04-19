@@ -23,11 +23,18 @@ namespace ui {
                 var selectUIBtn = buildingSelectUIBtn.GetComponent<BuildingSelectUIBtn>();
                 selectUIBtn.Initialize(buildingType);
                 buildingSelectUIBtn.GetComponent<Button>().onClick.AddListener(() => { BuildingManager.Instance.SetActiveBuildingType(buildingType); });
+                var mouseEnterExitEvents = buildingSelectUIBtn.GetComponent<MouseEnterExitEvents>();
+                mouseEnterExitEvents.OnMouseEnter += () => TooltipUI.Instance.Show(GetTooltipText(buildingType));
+                mouseEnterExitEvents.OnMouseExit += () => TooltipUI.Instance.Hide();
                 _buildingSelectUIBtnDict[buildingType] = selectUIBtn;
                 _buildingSelectUIBtnDict[buildingType] = selectUIBtn;
             }
 
             BuildingManager.Instance.OnActiveBuildingTypeChanged += BuildingManager_OnActiveBuildingTypeChanged;
+        }
+
+        private string GetTooltipText(BuildingTypeSO buildingType) {
+            return $"{buildingType.buildingName}\n{buildingType.GetBuildingCostString()}";
         }
 
         private void BuildingManager_OnActiveBuildingTypeChanged(BuildingTypeSO buildingType) {

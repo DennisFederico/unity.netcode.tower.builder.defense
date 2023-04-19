@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Wood
   m_EditorClassIdentifier: 
   resourceName: Wood
+  shortName: W
   sprite: {fileID: 21300000, guid: 0b991b4895d956f4ea5f954ab13b7529, type: 3}
+  color: {r: 0.6415094, g: 0.37621805, b: 0.17853329, a: 1}
   resourceType: 0
   nodeMinMaxAmount: {x: 50000, y: 160000}

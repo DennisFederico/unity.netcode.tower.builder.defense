@@ -23,5 +23,10 @@ MonoBehaviour:
       m_Bits: 256
     harvestRadius: 7
     maxHarvestNodes: 3
-  safeFromBuildingsDistance: {x: 2.5, y: 3}
+  safeFromBuildingsDistance: {x: 5, y: 6}
   maxDistanceFromBuildings: 15
+  resourceCost:
+  - resourceTypeSO: {fileID: 11400000, guid: 18aaab675e7de4c8d9456ac9696b14f7, type: 2}
+    amount: 50
+  - resourceTypeSO: {fileID: 11400000, guid: 96901538c85054a24bcba3ce2fe1ccc4, type: 2}
+    amount: 50

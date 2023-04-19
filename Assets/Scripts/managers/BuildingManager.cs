@@ -1,5 +1,6 @@
 using System;
 using scriptables;
+using ui;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using utils;
@@ -17,8 +18,9 @@ namespace managers {
         private Vector2 _spriteBoxSize;
         private Vector2 _spriteBoxOffset;
         private bool _isBuildingAreaClear;
-        private bool _isBuildingAreaSafe;
-        private bool _canSpawnBuilding;
+        private bool _isBuildingTooClose;
+        private bool _isBuildingTooFar;
+        // private bool _canSpawnBuilding;
         private readonly float _ghostUpdateTimer = .5f;
         private float _timer;
 
@@ -36,13 +38,15 @@ namespace managers {
             if (_activeBuildingType) {
                 var worldPosition = CursorManager.Instance.GetWorldMousePosition();
                 _isBuildingAreaClear = UpdateIsBuildAreaClear(worldPosition);
-                _isBuildingAreaSafe = UpdateIsBuildAreaSafe(worldPosition);
-                _canSpawnBuilding = _isBuildingAreaClear && _isBuildingAreaSafe;
-
-                if (Input.GetMouseButtonDown(0) &&
-                    _canSpawnBuilding &&
-                    !EventSystem.current.IsPointerOverGameObject()) {
-                    MultiplayerGameManager.Instance.SendBuildingSpawnRequest(_buildingTypeIndex, worldPosition);
+                _isBuildingTooClose = UpdateIsBuildingTooClose(worldPosition);
+                _isBuildingTooFar = UpdateIsBuildingTooFar(worldPosition);
+                
+                if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
+                    if (TrySpawnBuilding(worldPosition, out var errorMessage)) {
+                        MultiplayerGameManager.Instance.SendBuildingSpawnRequest(_buildingTypeIndex, worldPosition);
+                    } else {
+                        TooltipUI.Instance.Show(errorMessage, new TooltipUI.TooltipTimer(1.5f));
+                    }
                 }
                 
                 if (Input.GetKeyDown(KeyCode.Escape)) {
@@ -60,6 +64,27 @@ namespace managers {
                 //     }
                 // }    
             }
+        }
+
+        private bool TrySpawnBuilding(Vector3 worldPosition, out string errorMessage) {
+            if (!_isBuildingAreaClear) {
+                errorMessage = "Area is not clear";
+                return false;
+            }
+            if (_isBuildingTooClose) {
+                errorMessage = "Too close to other buildings";
+                return false;
+            }
+            if (_isBuildingTooFar) {
+                errorMessage = "Too far from other buildings";
+                return false;
+            }
+            if (!ResourceManager.Instance.TrySpendResources(_activeBuildingType.resourceCost)) {
+                errorMessage = $"Not enough resources\n{_activeBuildingType.GetBuildingCostString()}";
+                return false;
+            }
+            errorMessage = "";
+            return true;
         }
 
         private void LateUpdate() {
@@ -94,7 +119,6 @@ namespace managers {
         }
         
         private bool UpdateIsBuildAreaClear(Vector2 position) {
-            if (!_activeBuildingType) return false;
             // ReSharper disable Unity.PreferNonAllocApi
             var overlapBoxAll = Physics2D.OverlapBoxAll(position + _spriteBoxOffset, _spriteBoxSize, 0f);
             return overlapBoxAll.Length == 0;
@@ -105,16 +129,25 @@ namespace managers {
             return _activeBuildingType && _isBuildingAreaClear;
         }
         
-        private bool UpdateIsBuildAreaSafe(Vector2 position) {
-            if (!_activeBuildingType) return false;
+        private bool UpdateIsBuildingTooClose(Vector2 position) {
             // ReSharper disable Unity.PreferNonAllocApi
             var tooCloseBuildings = Physics2D.OverlapBoxAll(position + _spriteBoxOffset, _spriteBoxSize + _activeBuildingType.safeFromBuildingsDistance, 0f, buildingLayer);
-            var maxFarBuildings = Physics2D.OverlapCircleAll(position, _activeBuildingType.maxDistanceFromBuildings, buildingLayer);
-            return tooCloseBuildings.Length == 0 && maxFarBuildings.Length > 0;
+            return tooCloseBuildings.Length > 0;
             // ReSharper restore Unity.PreferNonAllocApi
         }
 
-        public bool IsBuildAreaSafe() {
+        public bool IsBuildingTooClose() {
+            return _activeBuildingType && _isBuildingAreaClear;
+        }
+        
+        private bool UpdateIsBuildingTooFar(Vector2 position) {
+            // ReSharper disable Unity.PreferNonAllocApi
+            var maxFarBuildings = Physics2D.OverlapCircleAll(position, _activeBuildingType.maxDistanceFromBuildings, buildingLayer);
+            return maxFarBuildings.Length == 0;
+            // ReSharper restore Unity.PreferNonAllocApi
+        }
+
+        public bool IsBuildingTooFar() {
             return _activeBuildingType && _isBuildingAreaClear;
         }
     }
