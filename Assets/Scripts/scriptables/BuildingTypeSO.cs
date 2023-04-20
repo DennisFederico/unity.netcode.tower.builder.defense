@@ -7,6 +7,7 @@ namespace scriptables {
         public string buildingName;
         public Transform buildingPrefab;
         public Sprite sprite;
+        public int maxHealth;
         public ResourceHarvestData resourceHarvestData;
         public Vector2 safeFromBuildingsDistance;
         public float maxDistanceFromBuildings;

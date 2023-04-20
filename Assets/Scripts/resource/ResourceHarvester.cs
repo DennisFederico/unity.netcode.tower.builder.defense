@@ -1,12 +1,14 @@
 using System.Diagnostics.CodeAnalysis;
+using buildings;
 using managers;
 using scriptables;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace resource {
+    [RequireComponent(typeof(BuildingTypeHolder))]
     public class ResourceHarvester : NetworkBehaviour {
-        [SerializeField] private BuildingTypeSO buildingType;
+        private BuildingTypeSO _buildingType;
         private float _timerMax;
         private float _timer;
         private Collider2D[] _resourcesInRange;
@@ -23,8 +25,9 @@ namespace resource {
         }
         
         private void Awake() {
-            _timerMax = buildingType.resourceHarvestData.timerMax;
-            _resourceHarvestData = buildingType.resourceHarvestData;
+            _buildingType = GetComponent<BuildingTypeHolder>().BuildingType;
+            _timerMax = _buildingType.resourceHarvestData.timerMax;
+            _resourceHarvestData = _buildingType.resourceHarvestData;
         }
 
         public override void OnNetworkSpawn() {
