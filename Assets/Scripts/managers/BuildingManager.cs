@@ -1,4 +1,5 @@
 using System;
+using buildings;
 using scriptables;
 using ui;
 using UnityEngine;
@@ -9,10 +10,13 @@ namespace managers {
     public class BuildingManager : MonoBehaviour {
         public static BuildingManager Instance { get; private set; }
         public event Action<BuildingTypeSO> OnActiveBuildingTypeChanged;
-
+        
         [SerializeField] private BuildingGhost mouseGhost;
         [SerializeField] private BuildingTypeListSO buildingTypeList;
         [SerializeField] private LayerMask buildingLayer;
+
+        [SerializeField] private Building hqBuilding;
+        
         private BuildingTypeSO _activeBuildingType;
         private int _buildingTypeIndex;
         private Vector2 _spriteBoxSize;
@@ -23,7 +27,6 @@ namespace managers {
         // private bool _canSpawnBuilding;
         private readonly float _ghostUpdateTimer = .5f;
         private float _timer;
-
 
         private void Awake() {
             //Singleton
@@ -64,6 +67,10 @@ namespace managers {
                 //     }
                 // }    
             }
+        }
+        
+        public Building GetHQBuilding() {
+            return hqBuilding;
         }
 
         private bool TrySpawnBuilding(Vector3 worldPosition, out string errorMessage) {

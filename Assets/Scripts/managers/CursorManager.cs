@@ -19,6 +19,6 @@ namespace utils {
             var screenToWorldPoint = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
             screenToWorldPoint.z = 0f;
             return screenToWorldPoint;
-        }    
+        }
     }
 }
