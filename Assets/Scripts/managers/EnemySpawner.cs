@@ -1,19 +1,34 @@
 using System;
 using System.Collections;
-using enemy;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 using utils;
 using Random = UnityEngine.Random;
 
 namespace managers {
     public class EnemySpawner : NetworkBehaviour {
+
+        private enum State {
+            WaitingForNextHorde,
+            SpawningHorde,
+        }
+        
         public static EnemySpawner Instance { get; private set; }
-
+        public event Action<int> OnNextHorde;
+        [SerializeField] private List<Transform> spawnPositions;
         [SerializeField] private Transform enemyPrefab;
-        [SerializeField] private Vector3 spawnPosition;
-        [SerializeField] private int spawnAmount;
-
+        [SerializeField] private Transform nextHordeIndicator;
+        [SerializeField] private LayerMask enemyLayerMask;
+        private int _startHordeAmount = 5;
+        private int _extraHordeAmount = 3;
+        private const float TimeBetweenHordes = 10f;
+        private float _spawnHordeTimer;
+        private State _state;
+        private int _currentHorde;
+        private Vector3 _nextHordePosition;
+        
         private void Awake() {
             if (Instance != null && Instance != this) {
                 Destroy(gameObject);
@@ -22,40 +37,86 @@ namespace managers {
             }
         }
 
-        // private void Start() {
-        //     NetworkManager.Singleton.OnServerStarted += SpawnEnemyHorde;
-        // }
+        private void Start() {
+            _state = State.WaitingForNextHorde;
+            _spawnHordeTimer = TimeBetweenHordes;
+            NextHordePosition();
+        }
 
-        // private void Update() {
-        //     if (Input.GetKeyDown(KeyCode.T)) {
-        //         var worldMousePosition = CursorManager.Instance.GetWorldMousePosition();
-        //         SpawnEnemy(worldMousePosition);
-        //     }
-        // }
+        private void Update() {
+            switch (_state) {
+                case State.WaitingForNextHorde:
+                    _spawnHordeTimer -= Time.deltaTime;
+                    if (_spawnHordeTimer <= 0) {
+                        _spawnHordeTimer += TimeBetweenHordes;
+                        _state = State.SpawningHorde;
+                        SpawnEnemyHorde(_nextHordePosition);
+                    }
+                    break;
+                case State.SpawningHorde:
+                    break;
+            }
+        }
 
-        private void SpawnEnemyHorde() {
-            StartCoroutine(SpawnEnemyHorde(spawnPosition, spawnAmount));
+        private void NextHordePosition() {
+            _nextHordePosition = spawnPositions[Random.Range(0, spawnPositions.Count)].position;
+            nextHordeIndicator.position = _nextHordePosition;
+            nextHordeIndicator.gameObject.SetActive(true);
+        }
+        
+        private void SpawnEnemyHorde(Vector3 position) {
+            nextHordeIndicator.gameObject.SetActive(false);
+            var thisHordeAmount = _startHordeAmount + (_extraHordeAmount * _currentHorde);
+            StartCoroutine(SpawnEnemyHorde(position, thisHordeAmount));
+            _currentHorde++;
+            OnNextHorde?.Invoke(_currentHorde);
         }
 
         public IEnumerator SpawnEnemyHorde(Vector3 position, int amount) {
-            Debug.Log($"Spawning enemy horde coroutine for {amount} enemies");
             int currentAmount = 0;
             while (currentAmount < amount) {
-                int amountToSpawn = Mathf.Min(Random.Range(25, 40), amount - currentAmount);
+                int amountToSpawn = Mathf.Min(Random.Range(1, 10), amount - currentAmount);
                 for (int i = 0; i < amountToSpawn; i++) {
-                    Vector3 spawnPos = spawnPosition + Utils.GetRandomDirection() * 4f;
-                    SpawnEnemy(spawnPos);
+                    SpawnEnemy(position + Utils.GetRandomDirection() * Random.Range(0f, 4f));
                     currentAmount++;
                 }
                 yield return new WaitForSeconds(0.1f);
             }
-            Debug.Log("Spawning ended");
+            NextHordePosition();
+            _state = State.WaitingForNextHorde;
         }
 
-        public Enemy SpawnEnemy(Vector3 position) {
+        private void SpawnEnemy(Vector3 position) {
             var enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
             enemy.GetComponent<NetworkObject>().Spawn(true);
-            return enemy.GetComponent<Enemy>();
+        }
+
+        public int GetCurrentHordeCount() {
+            return _currentHorde;
+        }
+        
+        public float GetTimeUntilNextHorde() {
+            return _spawnHordeTimer;
+        }
+        
+        public Vector3 GetNextHordePosition() {
+            return _nextHordePosition;
+        }
+        
+        private Collider2D[] _results = new Collider2D[50];
+        public Transform FindClosestEnemyFromPosition(Vector3 position, float range) {
+            Transform closestTransform = null;
+            var size = Physics2D.OverlapCircleNonAlloc(position, range, _results, enemyLayerMask);
+            float closestDistance = Mathf.Infinity;
+            for (int i = 0; i < size; i++) {
+                var aTransform = _results[i].transform;            
+                var distance = Vector3.Distance(position, aTransform.position);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestTransform = aTransform;
+                }
+            }
+            return closestTransform;
         }
     }
 }

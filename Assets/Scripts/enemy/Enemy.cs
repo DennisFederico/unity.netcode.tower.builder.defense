@@ -71,7 +71,7 @@ namespace enemy {
 
         private IEnumerator LockOnClosestTarget(float delay = 0.250f) {
             while (true) {
-                _currentTarget = TryLookForTargetInRadius(out var target) ? target : BuildingManager.Instance.GetHQBuilding().transform;
+                _currentTarget = TryLookForTargetInRadius(out var target) ? target : BuildingManager.Instance.GetHQBuilding()?.transform;
                 yield return new WaitForSeconds(delay);
             }
             // ReSharper disable once IteratorNeverReturns
