@@ -40,7 +40,11 @@ public class BuildingGhost : MonoBehaviour {
         _spriteRenderer.sprite = buildingType.sprite;
         spriteGameObject.SetActive(true);
         borderGameObject.SetActive(true);
-        infoOverlay.Show(buildingType.resourceHarvestData);
+        if (buildingType.isHarvester) {
+            infoOverlay.Show(buildingType.resourceHarvestData);    
+        } else {
+            infoOverlay.Hide();
+        }
         _isShowing = true;
     }
     

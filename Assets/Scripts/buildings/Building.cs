@@ -1,6 +1,4 @@
-using System;
 using managers;
-using resource;
 using scriptables;
 using Unity.Netcode;
 using UnityEngine;
@@ -8,7 +6,6 @@ using UnityEngine;
 namespace buildings {
     [RequireComponent(typeof(BuildingTypeHolder))]
     [RequireComponent(typeof(HealthSystem))]
-    [RequireComponent(typeof(ResourceHarvester))]
     public class Building : NetworkBehaviour {
         private HealthSystem _healthSystem;
         private BuildingTypeSO _buildingType;

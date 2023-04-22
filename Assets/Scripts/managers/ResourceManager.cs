@@ -11,8 +11,16 @@ namespace managers {
         public static ResourceManager Instance { get; private set; }
         public event Action<ResourceTypeSO, int> OnResourceAmountChanged;
         [SerializeField] private ResourceTypeListSO resourceTypeList;
+        //TODO reference by ResourceType not plain index
+        [SerializeField] private List<int> initialResources;
         private NetworkList<ResourceAmount> _resourceAmountList;
 
+        [Serializable]
+        public struct ResourceQty {
+            public ResourceType ResourceType;
+            public int Amount;
+        }
+        
         public struct ResourceAmount : INetworkSerializable, IEquatable<ResourceAmount> {
             public int ResourceIndex;
             public int Amount;
@@ -34,12 +42,13 @@ namespace managers {
             } else {
                 Instance = this;
             }
+
             _resourceAmountList = new NetworkList<ResourceAmount>();
             _resourceAmountList.OnListChanged += HandleResourceAmountListChanged;
         }
 
         private void HandleResourceAmountListChanged(NetworkListEvent<ResourceAmount> changeEvent) {
-            if (changeEvent.Type != NetworkListEvent<ResourceAmount>.EventType.Value) return;
+            if (changeEvent.Type is not (NetworkListEvent<ResourceAmount>.EventType.Value or NetworkListEvent<ResourceAmount>.EventType.Add)) return;
             var resourceType = GetIndexResourceType(changeEvent.Value.ResourceIndex);
             OnResourceAmountChanged?.Invoke(resourceType, changeEvent.Value.Amount);
         }
@@ -48,7 +57,7 @@ namespace managers {
             base.OnNetworkSpawn();
             if (!IsServer) return;
             for (var i = 0; i < resourceTypeList.resourceTypeList.Count; i++) {
-                _resourceAmountList.Add(new ResourceAmount { ResourceIndex = i, Amount = 0 });
+                _resourceAmountList.Add(new ResourceAmount { ResourceIndex = i, Amount = initialResources[i] });
             }
         }
 

@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using buildings;
 using managers;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace enemy {
+    
+    [RequireComponent(typeof(HealthSystem))]
     public class Enemy : MonoBehaviour {
         private Transform _currentTarget;
         private Rigidbody2D _rigidbody2D;
@@ -11,12 +15,22 @@ namespace enemy {
         private int _explosionDamage = 10;
         private float _targetRadius = 10f;
         private float _lookForTargetTimer;
-
         private float _lookForTargetTimerMax = .25f;
-
+        [SerializeField] private int maxHealth = 30;
+        private HealthSystem _healthSystem;
+        
         //TODO Move out of here and perhaps assign from the spawner
         [SerializeField] private LayerMask targetLayerMask;
         [SerializeField] private bool useTimer = true;
+
+        private void Awake() {
+            _healthSystem = GetComponent<HealthSystem>();
+            _healthSystem.Initialize(maxHealth);
+            _healthSystem.OnDie += () => {
+                //TODO SHOULD BE A SERVER CALL
+                Destroy(gameObject);
+            };
+        }
 
         private void Start() {
             _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -50,6 +64,8 @@ namespace enemy {
             //TODO - Check the building owner
             if (building) {
                 building.GetComponent<HealthSystem>().Damage(_explosionDamage);
+                //TODO SHOULD BE A SERVER CALL
+                Destroy(gameObject);
             }
         }
 
@@ -76,6 +92,10 @@ namespace enemy {
 
             target = closetTarget;
             return closetTarget;
+        }
+        
+        public void Damage(int damage) {
+            _healthSystem.Damage(damage);
         }
     }
 }

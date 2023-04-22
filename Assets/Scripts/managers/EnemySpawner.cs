@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using enemy;
 using Unity.Netcode;
@@ -23,6 +24,13 @@ namespace managers {
 
         // private void Start() {
         //     NetworkManager.Singleton.OnServerStarted += SpawnEnemyHorde;
+        // }
+
+        // private void Update() {
+        //     if (Input.GetKeyDown(KeyCode.T)) {
+        //         var worldMousePosition = CursorManager.Instance.GetWorldMousePosition();
+        //         SpawnEnemy(worldMousePosition);
+        //     }
         // }
 
         private void SpawnEnemyHorde() {

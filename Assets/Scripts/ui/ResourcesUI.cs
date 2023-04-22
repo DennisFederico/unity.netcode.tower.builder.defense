@@ -14,6 +14,7 @@ namespace ui {
                 var resourceUISingle = resourceSingle.GetComponent<ResourceUISingle>();
                 resourceUISingle.Initialize(resourceType);
                 _resourceUISingleDictionary[resourceType] = resourceUISingle;
+                HandleResourceAmountChanged(resourceType, ResourceManager.Instance.GetResourceAmount(resourceType));
             }
             ResourceManager.Instance.OnResourceAmountChanged += HandleResourceAmountChanged;
         }

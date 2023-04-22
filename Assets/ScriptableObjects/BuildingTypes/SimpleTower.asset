@@ -10,23 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b0b88e2b6004605b75b9836d59eb314, type: 3}
-  m_Name: StoneHarvester
+  m_Name: SimpleTower
   m_EditorClassIdentifier: 
-  buildingName: Stone Harvester
-  buildingPrefab: {fileID: 2952859790677275944, guid: 6fa21eafd7a844134a4d1fe20518e505, type: 3}
-  sprite: {fileID: 21300000, guid: 2263e91ebcd2a254dab5f4caccb4a7af, type: 3}
+  buildingName: Defense Tower
+  buildingPrefab: {fileID: 2952859790677275944, guid: 56ab0f002d0164608ab0235a0865dcad, type: 3}
+  sprite: {fileID: 21300000, guid: 3a549cd61f4d79e4b996c9978dac641f, type: 3}
   maxHealth: 100
-  isHarvester: 1
+  isHarvester: 0
   resourceHarvestData:
-    timerMax: 1.5
-    resourceType: {fileID: 11400000, guid: 96901538c85054a24bcba3ce2fe1ccc4, type: 2}
+    timerMax: 0
+    resourceType: {fileID: 0}
     resourceLayer:
       serializedVersion: 2
-      m_Bits: 128
-    harvestRadius: 7
-    maxHarvestNodes: 5
-  safeFromBuildingsDistance: {x: 5, y: 6}
-  maxDistanceFromBuildings: 15
+      m_Bits: 0
+    harvestRadius: 0
+    maxHarvestNodes: 0
+  safeFromBuildingsDistance: {x: 7, y: 5}
+  maxDistanceFromBuildings: 10
   resourceCost:
   - resourceTypeSO: {fileID: 11400000, guid: 18aaab675e7de4c8d9456ac9696b14f7, type: 2}
-    amount: 50
+    amount: 40
+  - resourceTypeSO: {fileID: 11400000, guid: 96901538c85054a24bcba3ce2fe1ccc4, type: 2}
+    amount: 0
