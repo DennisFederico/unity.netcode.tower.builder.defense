@@ -15,6 +15,7 @@ MonoBehaviour:
   buildingName: Gold Harvester
   buildingPrefab: {fileID: 2952859790677275944, guid: ed3999c19b70a4312ba48954bbcb2eb2, type: 3}
   sprite: {fileID: 21300000, guid: 8ead931dd91bff8489e75de9c414f17f, type: 3}
+  constructionTime: 5
   maxHealth: 150
   isHarvester: 1
   resourceHarvestData:

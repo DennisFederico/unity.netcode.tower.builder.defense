@@ -7,6 +7,7 @@ namespace scriptables {
         public string buildingName;
         public Transform buildingPrefab;
         public Sprite sprite;
+        public float constructionTime;
         public int maxHealth;
         public bool isHarvester;
         public ResourceHarvestData resourceHarvestData;

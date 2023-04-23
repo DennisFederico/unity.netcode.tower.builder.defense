@@ -2,6 +2,7 @@ using System;
 using buildings;
 using scriptables;
 using ui;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using utils;
@@ -14,7 +15,8 @@ namespace managers {
         [SerializeField] private BuildingGhost mouseGhost;
         [SerializeField] private BuildingTypeListSO buildingTypeList;
         [SerializeField] private LayerMask buildingLayer;
-
+        [SerializeField] private Transform buildingConstruction;
+        
         [SerializeField] private Building hqBuilding;
         
         private BuildingTypeSO _activeBuildingType;
@@ -45,8 +47,9 @@ namespace managers {
                 _isBuildingTooFar = UpdateIsBuildingTooFar(worldPosition);
                 
                 if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
-                    if (TrySpawnBuilding(worldPosition, out var errorMessage)) {
-                        MultiplayerGameManager.Instance.SendBuildingSpawnRequest(_buildingTypeIndex, worldPosition);
+                    if (CanSpawnBuildingCheck(out var errorMessage)) {
+                        CreateBuildingConstruction(worldPosition);
+                        //MultiplayerGameManager.Instance.SendBuildingSpawnRequest(_buildingTypeIndex, worldPosition);
                     } else {
                         TooltipUI.Instance.Show(errorMessage, new TooltipUI.TooltipTimer(1.5f));
                     }
@@ -73,7 +76,7 @@ namespace managers {
             return hqBuilding;
         }
 
-        private bool TrySpawnBuilding(Vector3 worldPosition, out string errorMessage) {
+        private bool CanSpawnBuildingCheck(out string errorMessage) {
             if (!_isBuildingAreaClear) {
                 errorMessage = "Area is not clear";
                 return false;
@@ -144,7 +147,7 @@ namespace managers {
         }
 
         public bool IsBuildingTooClose() {
-            return _activeBuildingType && _isBuildingAreaClear;
+            return _activeBuildingType && _isBuildingTooClose;
         }
         
         private bool UpdateIsBuildingTooFar(Vector2 position) {
@@ -155,7 +158,14 @@ namespace managers {
         }
 
         public bool IsBuildingTooFar() {
-            return _activeBuildingType && _isBuildingAreaClear;
+            return _activeBuildingType && _isBuildingTooFar;
+        }
+        
+        private BuildingConstruction CreateBuildingConstruction(Vector3 worldPosition) {
+            var aTransform = Instantiate(this.buildingConstruction, worldPosition, quaternion.identity);
+            var aBuildingConstruction = aTransform.GetComponent<BuildingConstruction>();
+            aBuildingConstruction.Setup(_activeBuildingType, _buildingTypeIndex);
+            return aBuildingConstruction;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using managers;
 using scriptables;
 using Unity.Netcode;
@@ -9,6 +10,8 @@ namespace buildings {
     public class Building : NetworkBehaviour {
         private HealthSystem _healthSystem;
         private BuildingTypeSO _buildingType;
+        public event Action OnMouseHoverEnter;
+        public event Action OnMouseHoverExit;
 
         private void Awake() {
             _buildingType = GetComponent<BuildingTypeHolder>().BuildingType;
@@ -25,6 +28,10 @@ namespace buildings {
         private void DestroyServerRpc() {
             Destroy(gameObject);
         }
+
+        private void OnMouseEnter() => OnMouseHoverEnter?.Invoke();
+        
+        private void OnMouseExit() => OnMouseHoverExit?.Invoke();
 
         public override void OnDestroy() {
             _healthSystem.OnDie -= HandleDie;

@@ -15,6 +15,7 @@ MonoBehaviour:
   buildingName: Wood Harvester
   buildingPrefab: {fileID: 2952859790677275944, guid: 56a6caa0120164b02a044a501fa60724, type: 3}
   sprite: {fileID: 21300000, guid: 793ca27a5a3378149aaa12abe85933f4, type: 3}
+  constructionTime: 5
   maxHealth: 100
   isHarvester: 1
   resourceHarvestData:

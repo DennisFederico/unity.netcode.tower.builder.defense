@@ -15,6 +15,7 @@ MonoBehaviour:
   buildingName: Stone Harvester
   buildingPrefab: {fileID: 2952859790677275944, guid: 6fa21eafd7a844134a4d1fe20518e505, type: 3}
   sprite: {fileID: 21300000, guid: 2263e91ebcd2a254dab5f4caccb4a7af, type: 3}
+  constructionTime: 5
   maxHealth: 100
   isHarvester: 1
   resourceHarvestData:

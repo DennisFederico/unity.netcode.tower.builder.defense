@@ -16,7 +16,7 @@ TagManager:
   - GoldResource
   - Building
   - Enemy
-  - 
+  - Minimap
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   m_SortingLayers:
   - name: Background
     uniqueID: 2606289717
+    locked: 0
+  - name: Minimap
+    uniqueID: 350787995
     locked: 0
   - name: Default
     uniqueID: 0

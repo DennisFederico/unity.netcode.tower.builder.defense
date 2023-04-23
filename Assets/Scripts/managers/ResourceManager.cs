@@ -111,5 +111,12 @@ namespace managers {
 
             return true;
         }
+        
+        public void RecoverResourcesFromDemolishBuilding(BuildingTypeSO buildingType) {
+            ResourceCost[] resources = buildingType.resourceCost;
+            foreach (var resource in resources) {
+                AddResource(resource.ResourceTypeSO, Mathf.RoundToInt(resource.Amount*.5f));
+            }
+        }
     }
 }

@@ -15,6 +15,7 @@ MonoBehaviour:
   buildingName: HQ
   buildingPrefab: {fileID: 2952859790677275944, guid: 866efe69011e64258a979c093bb7d9e0, type: 3}
   sprite: {fileID: 21300000, guid: 7030b8e3eb49e8440ae8eb3ec8b45d05, type: 3}
+  constructionTime: 5
   maxHealth: 500
   isHarvester: 1
   resourceHarvestData:
