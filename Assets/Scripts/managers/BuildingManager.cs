@@ -18,6 +18,7 @@ namespace managers {
         [SerializeField] private Transform buildingConstruction;
         
         [SerializeField] private Building hqBuilding;
+        private GameObject _hqBuildingGameObject;
         
         private BuildingTypeSO _activeBuildingType;
         private int _buildingTypeIndex;
@@ -37,6 +38,11 @@ namespace managers {
             } else {
                 Instance = this;
             }
+            _hqBuildingGameObject = hqBuilding.gameObject;
+        }
+
+        private void Start() {
+            hqBuilding.GetComponent<HealthSystem>().OnDie += HandleHqDie;
         }
 
         void Update() {
@@ -72,8 +78,8 @@ namespace managers {
             }
         }
         
-        public Building GetHQBuilding() {
-            return hqBuilding;
+        public Building GetHqBuilding() {
+            return _hqBuildingGameObject ? hqBuilding : null;
         }
 
         private bool CanSpawnBuildingCheck(out string errorMessage) {
@@ -105,7 +111,11 @@ namespace managers {
             _timer = _ghostUpdateTimer;
             mouseGhost.UpdateVisuals();
         }
-
+        
+        private void HandleHqDie() {
+            GameOverUI.Instance.Show();
+        }
+        
         public BuildingTypeListSO GetBuildingTypeListSO() {
             return buildingTypeList;
         }
@@ -167,5 +177,6 @@ namespace managers {
             aBuildingConstruction.Setup(_activeBuildingType, _buildingTypeIndex);
             return aBuildingConstruction;
         }
+        
     }
 }

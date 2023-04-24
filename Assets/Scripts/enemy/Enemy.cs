@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using buildings;
 using managers;
@@ -49,7 +48,7 @@ namespace enemy {
             if (!useTimer) return;
             _lookForTargetTimer -= Time.deltaTime;
             if (_lookForTargetTimer > 0f) return;
-            _currentTarget = TryLookForTargetInRadius(out var target) ? target : BuildingManager.Instance.GetHQBuilding().transform;
+            _currentTarget = TryLookForTargetInRadius(out var target) ? target : BuildingManager.Instance.GetHqBuilding()?.transform;
             _lookForTargetTimer += _lookForTargetTimerMax;
         }
 
@@ -71,7 +70,7 @@ namespace enemy {
 
         private IEnumerator LockOnClosestTarget(float delay = 0.250f) {
             while (true) {
-                _currentTarget = TryLookForTargetInRadius(out var target) ? target : BuildingManager.Instance.GetHQBuilding()?.transform;
+                _currentTarget = TryLookForTargetInRadius(out var target) ? target : BuildingManager.Instance.GetHqBuilding()?.transform;
                 yield return new WaitForSeconds(delay);
             }
             // ReSharper disable once IteratorNeverReturns

@@ -31,7 +31,7 @@ namespace ui {
             if (waveCountdown < 0) {
                 waveCountdownText.text = "Wave in progress";
             } else {
-                waveCountdownText.text = $"Next wave in {waveCountdown:0.00}";
+                waveCountdownText.text = $"Next wave in {waveCountdown:0.0}";
             }
         }
 
