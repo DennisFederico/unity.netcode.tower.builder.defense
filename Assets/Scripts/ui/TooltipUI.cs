@@ -41,8 +41,9 @@ namespace ui {
             anchoredPosition.y = Mathf.Max(anchoredPosition.y, 0);
             _rectTransform.anchoredPosition = anchoredPosition;
         }
-        public void Show(string message, TooltipTimer timer = null) {
-            _timer = timer;
+      
+        public void Show(string message, float timer = 0) {
+            _timer = timer > 0 ? new TooltipTimer(timer) : null;
             messageText.text = message;
             messageText.ForceMeshUpdate(true);
             backgroundRectTransform.sizeDelta = messageText.GetRenderedValues(true) + _textPadding;            

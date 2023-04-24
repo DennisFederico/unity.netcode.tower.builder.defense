@@ -5,6 +5,7 @@ namespace managers {
     public class HealthSystem : MonoBehaviour {
         public event Action OnDamage;
         public event Action OnDie;
+        public event Action OnHeal;
         private bool _initialized;
         
         public void Initialize(int maxHealth) {
@@ -31,7 +32,16 @@ namespace managers {
             if (IsDead) {
                 OnDie?.Invoke();
             }
-            //TODO TRIGGER DESTROY EVENT?
+        }
+        
+        public void Heal(int healAmount) {
+            CurrentHealth += healAmount;
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+            OnHeal?.Invoke();
+        }
+        
+        public void HealFull() {
+            Heal(MaxHealth);
         }
     }
 }

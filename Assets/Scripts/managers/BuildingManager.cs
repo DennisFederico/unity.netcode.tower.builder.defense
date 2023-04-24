@@ -57,7 +57,7 @@ namespace managers {
                         CreateBuildingConstruction(worldPosition);
                         //MultiplayerGameManager.Instance.SendBuildingSpawnRequest(_buildingTypeIndex, worldPosition);
                     } else {
-                        TooltipUI.Instance.Show(errorMessage, new TooltipUI.TooltipTimer(1.5f));
+                        TooltipUI.Instance.Show(errorMessage, 1.5f);
                     }
                 }
                 

@@ -21,7 +21,7 @@ namespace managers {
         [SerializeField] private Transform enemyPrefab;
         [SerializeField] private Transform nextHordeIndicator;
         [SerializeField] private LayerMask enemyLayerMask;
-        private int _startHordeAmount = 50;
+        private int _startHordeAmount = 5;
         private int _extraHordeAmount = 3;
         private const float TimeBetweenHordes = 10f;
         private float _spawnHordeTimer;
@@ -66,7 +66,7 @@ namespace managers {
         
         private void SpawnEnemyHorde(Vector3 position) {
             nextHordeIndicator.gameObject.SetActive(false);
-            var thisHordeAmount = _startHordeAmount + (_extraHordeAmount * _currentHorde);
+            var thisHordeAmount = (_currentHorde == 0 ? 50 : _startHordeAmount) + (_extraHordeAmount * _currentHorde);
             StartCoroutine(SpawnEnemyHorde(position, thisHordeAmount));
             _currentHorde++;
             OnNextHorde?.Invoke(_currentHorde);

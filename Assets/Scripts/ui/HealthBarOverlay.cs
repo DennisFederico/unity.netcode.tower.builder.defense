@@ -12,11 +12,8 @@ namespace ui {
         }
 
         private void Start() {
-            _healthSystem.OnDamage += HandleDamage;
-            UpdateBar();
-        }
-
-        private void HandleDamage() {
+            _healthSystem.OnDamage += UpdateBar;
+            _healthSystem.OnHeal += UpdateBar;
             UpdateBar();
         }
 

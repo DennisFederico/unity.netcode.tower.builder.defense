@@ -1448,7 +1448,7 @@ MonoBehaviour:
   m_Follow: {fileID: 930329232}
   m_Lens:
     FieldOfView: 34
-    OrthographicSize: 40
+    OrthographicSize: 26.44841
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -2273,7 +2273,7 @@ Camera:
   far clip plane: 5000
   field of view: 34
   orthographic: 1
-  orthographic size: 40
+  orthographic size: 26.44841
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3557,7 +3557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceTypeList: {fileID: 11400000, guid: 39210f3db8ff3477483e187bde3c4baf, type: 2}
-  initialResources: 640000003200000000000000
+  initialResources: 64000000320000001e000000
 --- !u!4 &872659429
 Transform:
   m_ObjectHideFlags: 0
@@ -5639,7 +5639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1749364225
 RectTransform:
   m_ObjectHideFlags: 0
