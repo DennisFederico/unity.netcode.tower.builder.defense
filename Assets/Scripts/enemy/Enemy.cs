@@ -26,7 +26,7 @@ namespace enemy {
             _healthSystem = GetComponent<HealthSystem>();
             _healthSystem.Initialize(maxHealth);
             _healthSystem.OnDie += () => {
-                //TODO SHOULD BE A SERVER CALL
+                SoundManager.Instance.PlaySound(SoundManager.Sound.EnemyDie);
                 Destroy(gameObject);
             };
         }
@@ -63,6 +63,7 @@ namespace enemy {
             //TODO - Check the building owner
             if (building) {
                 building.GetComponent<HealthSystem>().Damage(_explosionDamage);
+                SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingDamaged);
                 //TODO SHOULD BE A SERVER CALL
                 Destroy(gameObject);
             }
@@ -94,6 +95,7 @@ namespace enemy {
         }
         
         public void Damage(int damage) {
+            SoundManager.Instance.PlaySound(SoundManager.Sound.EnemyHit);
             _healthSystem.Damage(damage);
         }
     }

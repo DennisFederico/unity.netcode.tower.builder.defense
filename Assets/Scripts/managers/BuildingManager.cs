@@ -55,6 +55,7 @@ namespace managers {
                 if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
                     if (CanSpawnBuildingCheck(out var errorMessage)) {
                         CreateBuildingConstruction(worldPosition);
+                        SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingPlaced);
                         //MultiplayerGameManager.Instance.SendBuildingSpawnRequest(_buildingTypeIndex, worldPosition);
                     } else {
                         TooltipUI.Instance.Show(errorMessage, 1.5f);
@@ -113,6 +114,7 @@ namespace managers {
         }
         
         private void HandleHqDie() {
+            SoundManager.Instance.PlaySound(SoundManager.Sound.GameOver);
             GameOverUI.Instance.Show();
         }
         

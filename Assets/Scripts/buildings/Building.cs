@@ -26,6 +26,7 @@ namespace buildings {
         
         [ServerRpc(RequireOwnership = false)]
         private void DestroyServerRpc() {
+            SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingDestroyed);
             Destroy(gameObject);
         }
 

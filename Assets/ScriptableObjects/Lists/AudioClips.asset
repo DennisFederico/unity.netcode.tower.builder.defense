@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81bdc35fc1ab45d499da41848e985067, type: 3}
+  m_Name: AudioClips
+  m_EditorClassIdentifier: 
+  audioClips:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 8300000, guid: b6f42296f5beafc488675781f76318ac, type: 3}
+    - Key: 1
+      Value: {fileID: 8300000, guid: 9ac0bc0ae4bea9340ac8b940d05e327d, type: 3}
+    - Key: 2
+      Value: {fileID: 8300000, guid: 5a6b379558f38f848aacd0fb25fa2248, type: 3}
+    - Key: 3
+      Value: {fileID: 8300000, guid: 9d61cf77128137a4984a7eeee286b06a, type: 3}
+    - Key: 4
+      Value: {fileID: 8300000, guid: 53e89143e10e5f647ba2a26e4057ca0d, type: 3}
+    - Key: 5
+      Value: {fileID: 8300000, guid: 8bd85cc3fc51d4b4e8243f43202fb02e, type: 3}
+    - Key: 6
+      Value: {fileID: 8300000, guid: 797e0535c787b3e49ac89a9372f4a63c, type: 3}
+    - Key: 7
+      Value: {fileID: 8300000, guid: 0ebb990e568ceeb43b447cb20621e6da, type: 3}

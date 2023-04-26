@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 using utils;
 using Random = UnityEngine.Random;
 
@@ -65,6 +64,7 @@ namespace managers {
         }
         
         private void SpawnEnemyHorde(Vector3 position) {
+            SoundManager.Instance.PlaySound(SoundManager.Sound.EnemyWaveStarting);
             nextHordeIndicator.gameObject.SetActive(false);
             var thisHordeAmount = (_currentHorde == 0 ? 50 : _startHordeAmount) + (_extraHordeAmount * _currentHorde);
             StartCoroutine(SpawnEnemyHorde(position, thisHordeAmount));
