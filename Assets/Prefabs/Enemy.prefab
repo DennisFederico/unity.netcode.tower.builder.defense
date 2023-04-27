@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
+  onDieEffect: {fileID: 2586196222451070026, guid: fa53ff3e077270e4d8a679c8fa7de07f, type: 3}
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 512

@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 3465760411004948202}
   boxCollider2D: {fileID: -5947713402321311813}
+  buildingPlacedEffect: {fileID: 1408080632602542178, guid: 4ac58936248f3144db274df6c4356236, type: 3}
 --- !u!61 &-5947713402321311813
 BoxCollider2D:
   m_ObjectHideFlags: 0

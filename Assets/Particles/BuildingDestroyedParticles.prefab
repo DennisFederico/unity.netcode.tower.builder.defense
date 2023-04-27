@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5133218796547245083}
   - component: {fileID: 7446377964795783731}
   m_Layer: 0
-  m_Name: pfBuildingDestroyedParticles
+  m_Name: BuildingDestroyedParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4884,8 +4884,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 382055491
-  m_SortingLayer: 0
+  m_SortingLayerID: 100946479
+  m_SortingLayer: 1
   m_SortingOrder: 50
   m_RenderMode: 0
   m_MeshDistribution: 0

@@ -17,6 +17,7 @@ namespace enemy {
         private float _lookForTargetTimerMax = .25f;
         [SerializeField] private int maxHealth = 30;
         private HealthSystem _healthSystem;
+        [SerializeField] private GameObject onDieEffect;
         
         //TODO Move out of here and perhaps assign from the spawner
         [SerializeField] private LayerMask targetLayerMask;
@@ -27,6 +28,7 @@ namespace enemy {
             _healthSystem.Initialize(maxHealth);
             _healthSystem.OnDie += () => {
                 SoundManager.Instance.PlaySound(SoundManager.Sound.EnemyDie);
+                Instantiate(onDieEffect, transform.position, Quaternion.identity);
                 Destroy(gameObject);
             };
         }
@@ -64,8 +66,8 @@ namespace enemy {
             if (building) {
                 building.GetComponent<HealthSystem>().Damage(_explosionDamage);
                 SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingDamaged);
-                //TODO SHOULD BE A SERVER CALL
-                Destroy(gameObject);
+                //FORCE THE HEALTH SYSTEM TO DIE
+                _healthSystem.Damage(999);
             }
         }
 

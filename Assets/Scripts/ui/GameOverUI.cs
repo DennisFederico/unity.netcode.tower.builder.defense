@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace ui {
     public class GameOverUI : MonoBehaviour {
         public static GameOverUI Instance { get; private set; }
-
+        [SerializeField] private GameObject gameOverUIContainer;
         [SerializeField] private TextMeshProUGUI wavesSurvivedText;
         [SerializeField] private Button restartButton;
         [SerializeField] private Button mainMenuButton;
@@ -26,12 +26,12 @@ namespace ui {
         public void Show() {
             wavesSurvivedText.text = $"You survived {EnemySpawner.Instance.GetCurrentHordeCount() - 1} enemy waves!!!";
             Time.timeScale = 0;
-            gameObject.SetActive(true);
+            gameOverUIContainer.SetActive(true);
         }
 
         private void Hide() {
             Time.timeScale = 1;
-            gameObject.SetActive(false);
+            gameOverUIContainer.SetActive(false);
         }
     }
 }

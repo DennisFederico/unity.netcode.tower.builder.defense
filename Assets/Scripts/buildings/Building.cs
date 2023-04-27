@@ -9,6 +9,7 @@ namespace buildings {
     // public class Building : NetworkBehaviour {
     public class Building : MonoBehaviour {
         private HealthSystem _healthSystem;
+        [SerializeField] private GameObject destroyEffect;
         private BuildingTypeSO _buildingType;
         public event Action OnMouseHoverEnter;
         public event Action OnMouseHoverExit;
@@ -27,6 +28,7 @@ namespace buildings {
         // [ServerRpc(RequireOwnership = false)]
         private void DestroyServerRpc() {
             SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingDestroyed);
+            Instantiate(destroyEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
 

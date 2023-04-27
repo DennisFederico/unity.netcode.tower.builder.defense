@@ -11,6 +11,7 @@ namespace buildings {
         private int _buildingTypeIndex;
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private BoxCollider2D boxCollider2D;
+        [SerializeField] private Transform buildingPlacedEffect;
         private Material _constructionMaterial;
         private static readonly int MaterialLabelProgress = Shader.PropertyToID("_Progress");
 
@@ -24,6 +25,7 @@ namespace buildings {
             _constructionTimer -= Time.deltaTime;
             _constructionMaterial.SetFloat(MaterialLabelProgress, ConstructionTimerNormalized);
             if (_constructionTimer <= 0f) {
+                Instantiate(buildingPlacedEffect, transform.position, Quaternion.identity);
                 MultiplayerGameManager.Instance.SendBuildingSpawnRequest(_buildingTypeIndex, transform.position);
                 Destroy(gameObject);
             }
