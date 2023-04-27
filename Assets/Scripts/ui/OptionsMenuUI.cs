@@ -11,6 +11,7 @@ namespace ui {
         [SerializeField] private Slider musicVolumeSlider;
         [SerializeField] private TextMeshProUGUI musicVolumeText;
         [SerializeField] private Button mainMenuButton;
+        [SerializeField] private Toggle enableEdgeScrollingToggle;
 
         private void Awake() {
             optionsMenu.SetActive(false);
@@ -18,16 +19,20 @@ namespace ui {
                 Time.timeScale = 1f;
                 GameSceneManager.LoadMainMenuScene();
             });
+            
         }
 
         private void Start() {
             sfxVolumeSlider.value = SoundManager.Instance.Volume;
             sfxVolumeText.text = Mathf.RoundToInt(SoundManager.Instance.Volume * 100).ToString();
             sfxVolumeSlider.onValueChanged.AddListener(OnSfxVolumeSliderValueChanged);
-            
+
             musicVolumeSlider.value = MusicManager.Instance.Volume;
             musicVolumeText.text = Mathf.RoundToInt(MusicManager.Instance.Volume * 100).ToString();
             musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeSliderValueChanged);
+            
+            enableEdgeScrollingToggle.isOn = CameraHandler.Instance.EdgeScrollingEnabled;
+            enableEdgeScrollingToggle.onValueChanged.AddListener((bool value) => CameraHandler.Instance.EdgeScrollingEnabled = value);
         }
 
         private void OnMusicVolumeSliderValueChanged(float volume) {
