@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 8439725709094963835}
   - component: {fileID: 3779176070253809241}
   - component: {fileID: 6773137550574745679}
-  - component: {fileID: 1092017885332438562}
   m_Layer: 6
   m_Name: WoodResourceNode
   m_TagString: Untagged
@@ -179,22 +178,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceType: {fileID: 11400000, guid: 18aaab675e7de4c8d9456ac9696b14f7, type: 2}
   amount: 0
---- !u!114 &1092017885332438562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5411280134311428789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!1001 &2258420763122743678
 PrefabInstance:
   m_ObjectHideFlags: 0

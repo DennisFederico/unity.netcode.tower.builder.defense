@@ -2,12 +2,12 @@ using System.Diagnostics.CodeAnalysis;
 using buildings;
 using managers;
 using scriptables;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace resource {
     [RequireComponent(typeof(BuildingTypeHolder))]
-    public class ResourceHarvester : NetworkBehaviour {
+    // public class ResourceHarvester : NetworkBehaviour {
+    public class ResourceHarvester : MonoBehaviour {
         private BuildingTypeSO _buildingType;
         private float _timerMax;
         private float _timer;
@@ -30,8 +30,9 @@ namespace resource {
             _resourceHarvestData = _buildingType.resourceHarvestData;
         }
 
-        public override void OnNetworkSpawn() {
-            base.OnNetworkSpawn();
+        //public override void OnNetworkSpawn() {
+        private void OnEnable() {
+            // base.OnNetworkSpawn();
             //TODO this should be done on the server
             //TODO this should be called again whenever a resource node exhausts
             _resourcesInRange = GetResourceNodesInRange(_resourceHarvestData, transform.position);
@@ -45,7 +46,7 @@ namespace resource {
         }
 
         private void Update() {
-            if (!IsServer) return;
+            // if (!IsServer) return;
             _timer -= Time.deltaTime;
 
             if (_timer > 0) return;

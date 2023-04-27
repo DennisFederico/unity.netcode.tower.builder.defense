@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 using utils;
 using Random = UnityEngine.Random;
 
 namespace managers {
-    public class EnemySpawner : NetworkBehaviour {
+    // public class EnemySpawner : NetworkBehaviour {
+    public class EnemySpawner : MonoBehaviour {
 
         private enum State {
             WaitingForNextHorde,
@@ -88,7 +88,7 @@ namespace managers {
 
         private void SpawnEnemy(Vector3 position) {
             var enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
-            enemy.GetComponent<NetworkObject>().Spawn(true);
+            // enemy.GetComponent<NetworkObject>().Spawn(true);
         }
 
         public int GetCurrentHordeCount() {

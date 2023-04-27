@@ -1,13 +1,13 @@
 using System;
 using managers;
 using scriptables;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace buildings {
     [RequireComponent(typeof(BuildingTypeHolder))]
     [RequireComponent(typeof(HealthSystem))]
-    public class Building : NetworkBehaviour {
+    // public class Building : NetworkBehaviour {
+    public class Building : MonoBehaviour {
         private HealthSystem _healthSystem;
         private BuildingTypeSO _buildingType;
         public event Action OnMouseHoverEnter;
@@ -24,7 +24,7 @@ namespace buildings {
             DestroyServerRpc();    
         }
         
-        [ServerRpc(RequireOwnership = false)]
+        // [ServerRpc(RequireOwnership = false)]
         private void DestroyServerRpc() {
             SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingDestroyed);
             Destroy(gameObject);
@@ -34,9 +34,10 @@ namespace buildings {
         
         private void OnMouseExit() => OnMouseHoverExit?.Invoke();
 
-        public override void OnDestroy() {
+        // public override void OnDestroy() {
+        public void OnDestroy() {
             _healthSystem.OnDie -= HandleDie;
-            base.OnDestroy();
+            // base.OnDestroy();
         }
     }
 }
