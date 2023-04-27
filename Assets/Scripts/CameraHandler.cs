@@ -1,14 +1,21 @@
-using System;
 using Cinemachine;
 using UnityEngine;
 
 public class CameraHandler : MonoBehaviour {
     public static CameraHandler Instance { get; private set; }
 
-    public bool EdgeScrollingEnabled { get; set; } = true;
+    public bool EdgeScrollingEnabled {
+        get => _edgeScrollingEnabled;
+        set {
+            _edgeScrollingEnabled = value;
+            PlayerPrefs.SetInt("EdgeScrollingEnabled", value ? 1 : 0);
+        }
+    }
+
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private float cameraSpeed = 50f;
     [SerializeField] private float edgeScrollingSize = 10f;
+    private bool _edgeScrollingEnabled;
     private float _zoomAmount = 3f;
     private float _zoomSpeed = 30f;
     private (float min, float max) _zoomLimit = (10f, 40f);
@@ -21,6 +28,8 @@ public class CameraHandler : MonoBehaviour {
         } else {
             Instance = this;
         }
+        
+        _edgeScrollingEnabled = PlayerPrefs.GetInt("EdgeScrollingEnabled", 1) == 1;
     }
 
     private void Start() {

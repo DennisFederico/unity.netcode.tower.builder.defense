@@ -20,7 +20,10 @@ namespace managers {
         
         public float Volume {
             get => _volume;
-            set => _volume = Mathf.Clamp01(value);
+            set {
+                _volume = Mathf.Clamp01(value);
+                PlayerPrefs.SetFloat("sfxVolume", _volume);
+            }
         }
 
         [SerializeField] private SoundFxMap audioClipsMap;
@@ -33,7 +36,7 @@ namespace managers {
             } else {
                 Destroy(gameObject);
             }
-
+            _volume = PlayerPrefs.GetFloat("sfxVolume", .5f);
             _audioSource = GetComponent<AudioSource>();
         }
         

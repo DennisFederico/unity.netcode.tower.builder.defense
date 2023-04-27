@@ -5,10 +5,15 @@ namespace managers {
         public static MusicManager Instance { get; private set; }
 
         public float Volume {
-            get => _audioSource.volume;
-            set => _audioSource.volume = Mathf.Clamp01(value);
+            get => _volume;
+            set {
+                _volume = Mathf.Clamp01(value);
+                PlayerPrefs.SetFloat("musicVolume", _volume);
+                _audioSource.volume = _volume;
+            }
         }
 
+        private float _volume = .5f;
         private AudioSource _audioSource;
 
         private void Awake() {
@@ -18,7 +23,9 @@ namespace managers {
                 Destroy(gameObject);
             }
 
-            _audioSource = GetComponent <AudioSource>();
+            _volume = PlayerPrefs.GetFloat("musicVolume", .5f);
+            _audioSource = GetComponent<AudioSource>();
+            _audioSource.volume = _volume;
         }
     }
 }
