@@ -14,7 +14,10 @@ namespace ui {
 
         private void Awake() {
             optionsMenu.SetActive(false);
-            mainMenuButton.onClick.AddListener(() => Debug.Log("Main Menu Button Clicked"));
+            mainMenuButton.onClick.AddListener(() => {
+                Time.timeScale = 1f;
+                GameSceneManager.LoadMainMenuScene();
+            });
         }
 
         private void Start() {
