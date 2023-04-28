@@ -97,6 +97,8 @@ namespace enemy {
         }
         
         public void Damage(int damage) {
+            CineMachineShake.Instance.ShakeCamera(5f, .15f);
+            ChromaticAberrationEffect.Instance.SetWeight(.5f);
             SoundManager.Instance.PlaySound(SoundManager.Sound.EnemyHit);
             _healthSystem.Damage(damage);
         }

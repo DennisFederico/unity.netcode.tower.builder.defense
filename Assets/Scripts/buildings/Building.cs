@@ -18,11 +18,19 @@ namespace buildings {
             _buildingType = GetComponent<BuildingTypeHolder>().BuildingType;
             _healthSystem = GetComponent<HealthSystem>();
             _healthSystem.Initialize(_buildingType.maxHealth);
-            _healthSystem.OnDie += HandleDie;
+            _healthSystem.OnDamage += HandleOnDamage;
+            _healthSystem.OnDie += HandleOnDie;
         }
-        
-        private void HandleDie() {
-            DestroyServerRpc();    
+
+        private void HandleOnDamage() {
+            CineMachineShake.Instance.ShakeCamera(7f, .15f);
+            ChromaticAberrationEffect.Instance.SetWeight(.5f);
+        }
+
+        private void HandleOnDie() {
+            CineMachineShake.Instance.ShakeCamera(10f, .2f);
+            ChromaticAberrationEffect.Instance.SetWeight(1f);
+            DestroyServerRpc();
         }
         
         // [ServerRpc(RequireOwnership = false)]
@@ -38,7 +46,8 @@ namespace buildings {
 
         // public override void OnDestroy() {
         public void OnDestroy() {
-            _healthSystem.OnDie -= HandleDie;
+            _healthSystem.OnDamage -= HandleOnDamage;
+            _healthSystem.OnDie -= HandleOnDie;
             // base.OnDestroy();
         }
     }

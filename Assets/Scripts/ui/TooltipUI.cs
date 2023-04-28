@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using utils;
 
 namespace ui {
     public class TooltipUI : MonoBehaviour {
@@ -11,7 +12,7 @@ namespace ui {
         [SerializeField] private RectTransform backgroundRectTransform;
         private RectTransform _rectTransform;
         private readonly Vector2 _textPadding = new Vector2(10, 0);
-        private TooltipTimer _timer;
+        private Timer _timer;
 
         private void Awake() {
             if (Instance != null && Instance != this) {
@@ -27,7 +28,7 @@ namespace ui {
         private void LateUpdate() {
             HandleTooltipPosition();
             if (_timer == null) return;
-            _timer.Update();
+            _timer.Update(Time.deltaTime);
             if (_timer.IsFinished()) {
                 Hide();
             }
@@ -43,7 +44,7 @@ namespace ui {
         }
       
         public void Show(string message, float timer = 0) {
-            _timer = timer > 0 ? new TooltipTimer(timer) : null;
+            _timer = timer > 0 ? new Timer(timer) : null;
             messageText.text = message;
             messageText.ForceMeshUpdate(true);
             backgroundRectTransform.sizeDelta = messageText.GetRenderedValues(true) + _textPadding;            
@@ -52,22 +53,6 @@ namespace ui {
         
         public void Hide() {
             gameObject.SetActive(false);
-        }
-        
-        public class TooltipTimer {
-            private float _duration;
-
-            public TooltipTimer(float duration) {
-                _duration = duration;
-            }
-
-            public void Update() {
-                _duration -= Time.deltaTime;
-            }
-
-            public bool IsFinished() {
-                return _duration < 0;
-            }
         }
     }
 }
