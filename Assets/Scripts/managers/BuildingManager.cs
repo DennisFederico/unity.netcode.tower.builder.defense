@@ -1,5 +1,6 @@
 using System;
 using buildings;
+using resource;
 using scriptables;
 using ui;
 using Unity.Mathematics;
@@ -53,7 +54,7 @@ namespace managers {
                 _isBuildingTooFar = UpdateIsBuildingTooFar(worldPosition);
                 
                 if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
-                    if (CanSpawnBuildingCheck(out var errorMessage)) {
+                    if (CanSpawnBuildingCheck(worldPosition, out var errorMessage)) {
                         CreateBuildingConstruction(worldPosition);
                         SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingPlaced);
                         //MultiplayerGameManager.Instance.SendBuildingSpawnRequest(_buildingTypeIndex, worldPosition);
@@ -83,7 +84,7 @@ namespace managers {
             return _hqBuildingGameObject ? hqBuilding : null;
         }
 
-        private bool CanSpawnBuildingCheck(out string errorMessage) {
+        private bool CanSpawnBuildingCheck(Vector3 position, out string errorMessage) {
             if (!_isBuildingAreaClear) {
                 errorMessage = "Area is not clear";
                 return false;
@@ -96,6 +97,12 @@ namespace managers {
                 errorMessage = "Too far from other buildings";
                 return false;
             }
+            
+            if (_activeBuildingType.isHarvester && ResourceHarvester.GetResourceNodesInRangeCount(_activeBuildingType.resourceHarvestData, position) == 0) {
+                errorMessage = "No resources nearby";
+                return false;
+            }
+            
             if (!ResourceManager.Instance.TrySpendResources(_activeBuildingType.resourceCost)) {
                 errorMessage = $"Not enough resources\n{_activeBuildingType.GetBuildingCostString()}";
                 return false;
