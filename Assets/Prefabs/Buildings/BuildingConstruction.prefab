@@ -149,7 +149,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bde82ff59d625294f906b7fb0d4c8311, type: 2}
+  - {fileID: 2100000, guid: f84f7233202444b8a8ee1967dc2e8b11, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -287,6 +287,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7758929506954373844}
     m_Modifications:
+    - target: {fileID: 271050731469259436, guid: 538f86b63c34842ddad3d1e7f49227a8, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3233131120536049761, guid: 538f86b63c34842ddad3d1e7f49227a8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
